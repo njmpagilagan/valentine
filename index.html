@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --soft-pink: #ffccd5;
+            --gold: #ffb703;
+            --cream: #fff9f0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff0f3;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        /* --- THE ROMANTIC BACKGROUND --- */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #fff0f3, #ffccd5, #fff9f0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Rotating Sunbeams/Aura */
+        .sunbeams {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200vw;
+            height: 200vw;
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(255, 255, 255, 0.3) 20deg,
+                transparent 40deg
+            );
+            background-repeat: repeat;
+            background-size: 10% 100%;
+            animation: rotate 60s linear infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Floating Petals/Flowers */
+        .petal {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(540deg);
+                left: calc(var(--start-x) + 20vw);
+            }
+        }
+
+        /* --- Main UI --- */
+        #main-stage {
+            display: flex;          /* Enables Flexbox */
+            flex-direction: column; /* Stacks text and flower vertically */
+            align-items: center;    /* Centers horizontally */
+            justify-content: center;/* Centers vertically */
+            text-align: center;
+            height: 100vh;          /* Takes up the full screen height */
+            width: 100vw;           /* Takes up the full screen width */
+        }
+        .flower-wrapper {
+            width: 180px;           /* Fixed size container for the flower */
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;         /* Equal spacing above and below */
+        }
+
+        .flower-btn {
+            width: 160px;
+            height: 160px;
+            cursor: pointer;
+            filter: drop-shadow(0 0 20px var(--rose));
+            animation: breathe 3s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* --- Polaroid Carousel --- */
+        #gallery-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 500;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .polaroid-set {
+            display: none;
+            justify-content: center;
+            gap: 40px;
+            z-index: 10;
+            animation: fadeIn 1.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 60px 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            width: 260px;
+            transform: rotate(var(--r));
+            border-radius: 2px;
+        }
+
+        .polaroid img { width: 100%; height: 260px; object-fit: cover; }
+        
+        .polaroid .caption {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #444;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* --- Letter Glass --- */
+        .letter-box {
+            position: absolute;
+            bottom: 8%;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            max-width: 80%;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+        }
+
+        #typewriter {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #c9184a;
+            margin: 0;
+            text-align: center;
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold);
+            pointer-events: none;
+            z-index: 9999;
+            animation: fade 1s forwards;
+        }
+
+        @keyframes fade {
+            to { opacity: 0; transform: scale(0.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-container"></div>
+    <div class="sunbeams"></div>
+
+    <audio id="loveSong" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-stage">
+        <h1 style="font-family: 'Great Vibes'; color: var(--rose); font-size: 4.5rem; margin-bottom: 20px;">For My Dearest</h1>
+        <div class="flower-btn" onclick="startMagic()">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="10" fill="var(--gold)" />
+                <path d="M50 50 Q70 10 90 50 T50 90 T10 50 Q30 10 50 50" fill="var(--rose)" />
+                <path d="M50 50 Q90 20 90 80 T50 50 T10 20 Q10 80 50 50" fill="#ff758f" opacity="0.6" />
+                <path d="M50 50 Q50 0 20 50 T50 100 T80 50 Q50 0 50 50" fill="#ffb3c1" opacity="0.4" />
+            </svg>
+        </div>
+        <p style="color: var(--rose); letter-spacing: 5px; font-weight: bold; margin-top: 20px;">TAP TO BLOOM</p>
+    </div>
+
+    <div id="gallery-overlay">
+        <div class="polaroid-set" id="set1">
+            <div class="polaroid" style="--r: -3deg;"><img src="Pictures/1.jpg"><div class="caption">Moments Like These</div></div>
+            <div class="polaroid" style="--r: 2deg;"><img src="Pictures/2.jpg"><div class="caption">Better Together</div></div>
+            <div class="polaroid" style="--r: -1deg;"><img src="Pictures/3.jpg"><div class="caption">Dinner Fun</div></div>
+        </div>
+        <div class="polaroid-set" id="set2">
+            <div class="polaroid" style="--r: 4deg;"><img src="Pictures/4.jpeg"><div class="caption">Better Together</div></div>
+            <div class="polaroid" style="--r: -2deg;"><img src="Pictures/5.jpg"><div class="caption">Sunset</div></div>
+            <div class="polaroid" style="--r: 3deg;"><img src="Pictures/6.jpeg"><div class="caption">Our Silly Faces</div></div>
+        </div>
+
+        <div class="letter-box">
+            <p id="typewriter"></p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Mouse Sparkle Trail
+        document.addEventListener('mousemove', (e) => {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = e.clientX + 'px';
+            s.style.top = e.clientY + 'px';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 1000);
+        });
+
+        // 2. Create Floating Petals
+        function createPetal() {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            const startX = Math.random() * 100;
+            p.style.setProperty('--start-x', startX + 'vw');
+            p.style.left = startX + 'vw';
+            p.innerHTML = '🌸';
+            p.style.fontSize = Math.random() * 20 + 15 + 'px';
+            p.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 10000);
+        }
+        setInterval(createPetal, 400);
+
+        // 3. Slideshow Logic
+        let currentSet = 0;
+        const sets = document.querySelectorAll('.polaroid-set');
+        function cycle() {
+            sets.forEach(s => s.style.display = 'none');
+            sets[currentSet].style.display = 'flex';
+            currentSet = (currentSet + 1) % sets.length;
+        }
+
+        // 4. Typewriter Logic
+        const text = "Every day with you feels like a beautiful dream. You are my heart, my soul, and my everything. Happy Valentine's Day, Mahal... ❤️";
+        let idx = 0;
+        function type() {
+            if (idx < text.length) {
+                document.getElementById('typewriter').innerHTML += text.charAt(idx);
+                idx++;
+                setTimeout(type, 70);
+            }
+        }
+
+        // 5. Trigger
+        function startMagic() {
+            document.getElementById('loveSong').play();
+            document.getElementById('main-stage').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('main-stage').style.display = 'none';
+                document.getElementById('gallery-overlay').style.display = 'flex';
+                cycle();
+                setInterval(cycle, 6000);
+                setTimeout(type, 1000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
